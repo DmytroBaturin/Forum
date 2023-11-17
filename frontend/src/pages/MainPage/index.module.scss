@@ -1,0 +1,17 @@
+.root{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 130px);
+}
+.title{
+  h1{
+    font-weight: 600;
+    font-size: 120px
+  }
+}
+.buttons{
+  display: flex;
+  gap: 20px;
+}

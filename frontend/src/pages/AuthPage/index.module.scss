@@ -1,0 +1,34 @@
+.root{
+  align-items: center;
+  justify-content: center;
+  width: 60%;
+  margin: 120px auto;
+  height: 100%;
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.26);
+}
+.container{
+  padding: 30px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  input{
+    outline: none;
+    width: 50%;
+  }
+}
+.button{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  p{
+    font-size: 14px;
+    span{
+      font-weight: 500;
+      color: #6161ff;
+    }
+  }
+}

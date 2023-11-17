@@ -1,0 +1,15 @@
+.comment{
+  display: flex;
+  flex-direction: column;
+  h1{
+    font-weight: 700;
+    font-size: 16px;
+  }
+  p{
+    opacity: 0.6;
+    font-weight: 500;
+  }
+  padding: 10px;
+  border: none;
+  border-left: 2px solid black;
+}

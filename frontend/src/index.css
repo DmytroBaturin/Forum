@@ -1,0 +1,22 @@
+body {
+  margin: 0;
+  width: 100%;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+  color: black;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+a{
+
+  text-decoration: none;
+  color: black;
+}
+*{
+  font-family: "Poppins";
+  margin: 0;
+  padding: 0;
+}
+.mainDiv{
+  margin-top: 65px
+}
