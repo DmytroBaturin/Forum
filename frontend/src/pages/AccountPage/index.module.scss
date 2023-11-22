@@ -14,3 +14,32 @@
     opacity: 0.5;
   }
 }
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1); // Adds a subtle shadow for depth
+  thead {
+    background-color: #4a90e2; // A nice blue tone for the header
+    color: white; // White text for contrast
+    th {
+      padding: 20px 15px; // More space inside each header cell
+      text-align: left; // Aligns text to the left
+      border-bottom: 2px solid #fff; // White border for a subtle separation
+    }
+  }
+
+  tr {
+    &:nth-child(even) {
+      background-color: #f2f2f2; // Zebra striping for rows
+    }
+
+    &:hover {
+      background-color: #e8f4fd; // Light blue background on hover
+    }
+  }
+
+  td {
+    padding: 8px 12px;
+    border-bottom: 1px solid #ddd;
+  }
+}

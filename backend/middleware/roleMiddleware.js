@@ -1,18 +1,22 @@
-const Role = require('../models/role')
+const Role = require('../models/role');
 
-exports.rolemiddleware = (roles) => {
+exports.rolemiddleware = (requiredRoleNames) => {
     return async function (req, res, next) {
+        if (!req.session || !req.session.userInfo || !req.session.userInfo.roles) {
+            return res.status(401).json({ message: 'You do not have the necessary roles for this action' });
+        }
         try {
-            const userRole = await Role.findById(req.session.userInfo.roles);
-            if (userRole && roles.includes(userRole.role)) {
-                next();
+            const userRoles = req.session.userInfo.roles.map(role => role.toString());
+            const validRoles = await Role.find({ role: { $in: requiredRoleNames } });
+            const hasValidRole = validRoles.some(validRole => userRoles.includes(validRole._id.toString()));
+            if (hasValidRole) {
+                return next();
             } else {
-                res.status(403).json({ message: 'No access' });
-
+                return res.status(403).json({ message: 'Not access' });
             }
         } catch (error) {
-            console.error(error);
-            res.status(500).json({ message: 'An error occurred while checking the user role' });
+            console.error('Role middleware error:', error);
+            return res.status(500).json({ message: 'Internal Server Error' });
         }
-        }
+    };
 };

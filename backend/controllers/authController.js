@@ -6,14 +6,22 @@ exports.registration = async (req, res) => {
     try {
         const { username, password } = req.body;
         const candidate = await User.findOne({ username });
-        const roles = await Role.findOne({ role: "USER" });
+        const userRole = await Role.findOne({ role: "USER" });
+        if (!userRole) {
+            return res.status(500).json({ message: 'User Role not found' });
+        }
         if (candidate) {
             return res.status(409).json({ message: 'Username already registered' });
         }
         const salt = bcrypt.genSaltSync(10);
         const hashedPassword = bcrypt.hashSync(password, salt);
-        const user = new User({ username, password: hashedPassword, roles: [roles] });
+        let user = new User({
+            username,
+            password: hashedPassword,
+            roles: [userRole._id]
+        });
         await user.save();
+        user = await User.findById(user._id).populate('roles', 'role');
         req.session.isAuth = true;
         req.session.userInfo = user;
         return res.status(201).json({
@@ -30,14 +38,11 @@ exports.registration = async (req, res) => {
 exports.login = async (req, res) => {
     try {
         const { username, password } = req.body;
-        const user = await User.findOne({ username }).select('+password');
-
+        const user = await User.findOne({ username }).populate('roles')
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
-
         const isMatch = bcrypt.compareSync(password, user.password);
-
         if (!isMatch) {
             return res.status(401).json({ message: 'Incorrect password' });
         } else {
@@ -58,7 +63,6 @@ exports.login = async (req, res) => {
 
 exports.logout = async (req, res) => {
     try {
-        console.log(req.session);
         req.session.destroy((err) => {
             if (err) {
                 res.status(500).json({ message: 'Internal Server Error' });
@@ -76,7 +80,8 @@ exports.logout = async (req, res) => {
 exports.checkSession = async (req, res) => {
     try {
         if (req.session.isAuth) {
-            res.status(200).json({ isAuth: true, user: req.session.userInfo });
+            const user = await User.findById(req.session.userInfo._id).populate('roles')
+            res.status(200).json({ isAuth: true, user: user });
         } else {
             res.status(200).json({ isAuth: false });
         }

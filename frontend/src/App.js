@@ -6,18 +6,21 @@ import {TopicsPage} from "./pages/TopicsPage";
 import {TopicPage} from "./pages/TopicPage";
 import {AuthPage} from "./pages/AuthPage";
 import {AccountPage} from "./pages/AccountPage";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {useDispatch} from "react-redux";
 import {checkSession} from "./store/actions/auth";
 
 function App() {
+
     const dispatch = useDispatch();
+
     useEffect(() => {
         const interval = setInterval(() => {
             dispatch(checkSession());
         }, 600000);
         return () => clearInterval(interval);
     }, [dispatch]);
+
     return (
             <BrowserRouter>
                <Header/>

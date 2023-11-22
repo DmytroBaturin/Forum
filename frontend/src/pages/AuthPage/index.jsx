@@ -28,19 +28,28 @@ export const AuthPage = () => {
         const userCredentials = { username: credentials.username, password: credentials.password };
         setClick(true)
         if (action === 'register') {
-            dispatch(register(userCredentials));
+            dispatch(register(userCredentials)).unwrap()
+                .then(r => {
+                    if(r.ok){
+                        setClick(true)
+                    }
+                })
         } else {
-            dispatch(login(userCredentials));
+            dispatch(login(userCredentials)).unwrap()
+                .then(r => {
+                if(r.ok){
+                    setClick(true)
+                }
+            })
         }
     }, [dispatch, credentials, action]);
 
     useEffect(() => {
-        setClick(false)
         if (isAuth && click === true) {
             navigate('/topics');
             setClick(false)
         }
-    }, [isAuth, click]);
+    }, [isAuth]);
 
     const isRegisterMode = action === 'register';
 

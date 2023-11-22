@@ -11,7 +11,6 @@ export const TopicPage = () => {
     const dispatch = useDispatch();
     const [topic, setTopic] = useState();
     const [comment, setComment] = useState('');
-
     const changeComment = useCallback((event) => {
         setComment(event.target.value);
     }, []);

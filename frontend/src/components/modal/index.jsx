@@ -46,7 +46,7 @@ export const Modal = () => {
             <div className={styles.overlay}></div>
             <div ref={ref} className={styles.modal}>
                 <div className={styles.container}>
-                    <Input
+                    <textarea className={styles}
                         value={topic.title}
                         onChange={(e) => handleInputChange('title', e.target.value)}
                         placeholder='Title'

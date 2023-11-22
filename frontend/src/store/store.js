@@ -4,6 +4,7 @@ import topicSlice from "./topicSlice";
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import modalSlice from "./modalSlice";
+import usersSlice from "./usersSlice";
 
 const persistConfig = {
     key: 'root',
@@ -14,6 +15,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
     auth: authSlice,
     topic: topicSlice,
+    users: usersSlice,
     modal: modalSlice
 });
 
