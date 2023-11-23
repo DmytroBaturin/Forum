@@ -1,32 +1,36 @@
-const { Schema } = require("mongoose")
+const { Schema } = require("mongoose");
 const mongoose = require("mongoose");
 
 const topicSchema = new Schema({
-    title: {
-        type: String,
-        required: true
+  title: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  categories: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Category",
     },
-    description: {
-        type: String,
-        required: true
+  ],
+  comments: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Comments",
     },
-    categories: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Category'
-    }],
-    comments: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Comments'
-    }],
-    created_by: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
-    },
-    created_at: {
-        type: Date,
-        default: Date.now
-    }
+  ],
+  created_by: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
+  created_at: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
-module.exports = mongoose.model("Topic", topicSchema)
+module.exports = mongoose.model("Topic", topicSchema);

@@ -1,4 +1,4 @@
-.header{
+.header {
   padding: 10px 50px;
   margin: 5px 10%;
   border: 1.5px solid black;
@@ -11,18 +11,17 @@
   flex-direction: row;
   align-items: center;
 }
-.navbar{
+.navbar {
   display: flex;
   gap: 60px;
 }
-.logo{
-  h1{
+.logo {
+  h1 {
     font-size: 24px;
     font-weight: 500;
   }
 }
-.root{
-
+.root {
   top: 0;
   width: 100%;
   position: fixed;

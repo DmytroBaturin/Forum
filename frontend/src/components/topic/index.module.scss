@@ -1,4 +1,4 @@
-.root{
+.root {
   display: flex;
   align-items: center;
   transition: background 0.1s ease-in-out;
@@ -9,32 +9,32 @@
   }
   padding: 10px 25px;
 }
-.categories{
+.categories {
   display: flex;
   gap: 10px;
-  p{
+  p {
     font-size: 12px;
   }
 }
-.container{
+.container {
   width: 100%;
   align-items: center;
   display: flex;
   justify-content: space-between;
 }
-.right{
+.right {
   display: flex;
   flex-direction: column;
   margin-left: 20px;
-  h1{
+  h1 {
     font-size: 20px;
     font-weight: 400;
   }
 }
-.left{
+.left {
   text-align: right;
 }
-.createdby{
+.createdby {
   font-size: 12px;
   opacity: 0.5;
 }

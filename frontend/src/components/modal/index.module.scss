@@ -1,7 +1,6 @@
 .root {
-
 }
-.modal{
+.modal {
   top: 50%;
   left: 50%;
   background: white;
@@ -23,10 +22,10 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
-  input{
+  input {
     width: 60%;
   }
-  textarea{
+  textarea {
     border: 1px solid rgba(0, 0, 0, 0.1);
     width: 65%;
     box-sizing: border-box;
@@ -39,14 +38,13 @@
       height: 40px;
     }
   }
-
 }
 
-.categories{
+.categories {
   display: flex;
   gap: 10px;
   font-size: 12px;
-  span{
+  span {
     padding: 5px 20px;
     border-radius: 10px;
     border: 1px solid black;
@@ -62,7 +60,7 @@
   height: 100%;
   z-index: 1;
 }
-.root:is(body){
+.root:is(body) {
   overflow: hidden;
 }
 .activeCategory {

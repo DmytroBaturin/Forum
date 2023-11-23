@@ -1,9 +1,5 @@
-import styles from './index.module.scss'
+import styles from "./index.module.scss";
 
 export const Footer = () => {
-    return(
-        <div className={styles.root}>
-            Footer
-        </div>
-    )
-}
+  return <div className={styles.root}>Footer</div>;
+};
