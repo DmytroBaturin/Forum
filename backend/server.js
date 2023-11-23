@@ -47,7 +47,7 @@ mongoose.connect(uri).then(async () => {
         console.log('ADMIN role not found');
         return;
     }
-    const user = await User.findById('655e763aa4cc5bd8fa5a201a');
+    const user = await User.findById('655e8e4ed1e211dcbf618a87');
     if (!user) {
         console.log('User not found');
         return;

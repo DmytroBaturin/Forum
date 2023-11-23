@@ -16,6 +16,7 @@ exports.setRequestUrl = (app) => {
 
     //adminController
     app.delete('/deleteUser', authmiddleware.isAuth, middleware.rolemiddleware(['ADMIN']), admin.deleteUser)
+    app.delete('/deleteUserRole', authmiddleware.isAuth, middleware.rolemiddleware(['ADMIN']), admin.deleteRole)
     app.delete('/deleteAllUsers', authmiddleware.isAuth,middleware.rolemiddleware(['ADMIN']), admin.deleteAllData)
     app.delete('/deleteAllTopics',authmiddleware.isAuth, middleware.rolemiddleware(['ADMIN']), admin.deleteAllData)
     app.get('/getUsers', authmiddleware.isAuth, middleware.rolemiddleware(['ADMIN']), admin.getUsers)

@@ -24,7 +24,6 @@ exports.deleteUser = async(req, res) => {
     try {
         const { userId } = req.body
         const user = req.session.userInfo._id
-
         const userForDelete = await User.findById(userId)
         if(userId.toString() === user.toString()){
             return res.status(404).json({message: "Your profile cannot be deleted"});
@@ -74,34 +73,69 @@ exports.getRoles = async (req, res) => {
 
 exports.giveRole = async (req, res) => {
     try {
-        const { userId, roleToGive } = req.body;
+        const { userId, roleId } = req.body;
         const user = await User.findById(userId);
-        const role = await Role.findById(roleToGive);
+        const role = await Role.findById(roleId);
         if (!role) {
             return res.status(404).json({ message: 'Role not found' });
         }
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
-        if (user.roles.includes(roleToGive)) {
+        if (user.roles.includes(roleId)) {
             return res.status(409).json({ message: 'User already has this role' });
         }
         const updateUser = await User.findByIdAndUpdate(
             userId,
-            { $push: { roles: roleToGive } },
+            { $push: { roles: roleId } },
             { new: true }
         );
-
         if (!updateUser) {
             return res.status(404).json({ message: 'User not found' });
         }
-
+        const userWithPopulatedRoles = await User.findById(userId).populate('roles');
         res.status(201).json({
             message: 'Role was given',
-            updateUser: updateUser
+            updateUser: userWithPopulatedRoles
         });
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
+
+exports.deleteRole = async (req, res) => {
+    try {
+        const { userId, roleId } = req.body;
+        const userSession = req.session.userInfo._id
+        const user = await User.findById(userId);
+        if(userId.toString() === userSession.toString()){
+            return res.status(404).json({message: "Your role cannot be deleted"});
+        }
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        if (!user.roles.includes(roleId)) {
+            return res.status(404).json({ message: 'Role not found for this user' });
+        }
+        const updatedUser = await User.findByIdAndUpdate(
+            userId,
+            { $pull: { roles: roleId } },
+            { new: true }
+        );
+
+        if (!updatedUser) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        const userWithPopulatedRoles = await User.findById(userId).populate('roles');
+
+        res.status(200).json({
+            message: 'Role deleted successfully from user',
+            user: userWithPopulatedRoles
+        });
+
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: 'Internal Server Error' });
     }
 };

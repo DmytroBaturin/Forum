@@ -5,14 +5,16 @@ import {modalState, openModal} from "../store/modalSlice";
 export default function useComponentVisible(initialIsVisible) {
     const modal = useSelector(modalState);
     const dispatch = useDispatch();
-
     const [isComponentVisible, setIsComponentVisible] =
         useState(initialIsVisible);
     const ref = useRef(null);
 
     const handleClickOutside = (event) => {
         if (ref.current && !ref.current.contains(event.target)) {
-            dispatch(openModal(!modal));
+            if(modal){
+                dispatch(openModal(!modal));
+            }
+            setIsComponentVisible(false);
         }
     };
 
