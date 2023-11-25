@@ -23,8 +23,10 @@
 }
 .options {
   display: flex;
+  align-items: center;
   justify-content: space-between;
   h1 {
+    word-break: break-all;
     font-weight: 500;
   }
 }
