@@ -80,11 +80,9 @@ export const createTopic = createAsyncThunk(
       });
       const data = await response.json();
       if (!response.ok) {
-        enqueueSnackbar(data.message, { variant: "error" });
         return data;
       }
       enqueueSnackbar(data.message, { variant: "success" });
-
       return data;
     } catch (e) {
       const data = e?.response?.data;

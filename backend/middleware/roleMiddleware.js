@@ -3,11 +3,9 @@ const Role = require("../models/role");
 exports.rolemiddleware = (requiredRoleNames) => {
   return async function (req, res, next) {
     if (!req.session || !req.session.userInfo || !req.session.userInfo.roles) {
-      return res
-        .status(401)
-        .json({
-          message: "You do not have the necessary roles for this action",
-        });
+      return res.status(401).json({
+        message: "You do not have the necessary roles for this action",
+      });
     }
     try {
       const userRoles = req.session.userInfo.roles.map((role) =>

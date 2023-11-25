@@ -5,3 +5,8 @@
   padding: 10px 50px;
   font-weight: 500;
 }
+@media screen and (max-width: 768px) {
+  .button {
+    padding: 5px 25px;
+  }
+}

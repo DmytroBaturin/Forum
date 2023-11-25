@@ -14,8 +14,13 @@ const topicSlice = createSlice({
     topics: [],
     topic: {},
     categories: [],
+    error: [],
   },
-  reducers: {},
+  reducers: {
+    clearError: (state) => {
+      state.error = null;
+    },
+  },
   extraReducers: {
     [getAllTopics.fulfilled]: (state, action) => {
       state.topics = action.payload;
@@ -30,7 +35,11 @@ const topicSlice = createSlice({
       console.log(action);
     },
     [createTopic.fulfilled]: (state, action) => {
-      state.topics.push(action.payload.topic);
+      if (!action.payload.topic) {
+        state.error = action.payload;
+      } else {
+        state.topics.push(action.payload.topic);
+      }
     },
     [createTopic.pending]: (state, action) => {},
     [createTopic.rejected]: (state, action) => {},
@@ -54,4 +63,6 @@ const topicSlice = createSlice({
 
 export const categoriesSelector = (state) => state.topic.categories;
 export const topicsSelector = (state) => state.topic.topics;
+export const errorSelector = (state) => state.topic.error;
+export const { clearError } = topicSlice.actions;
 export default topicSlice.reducer;

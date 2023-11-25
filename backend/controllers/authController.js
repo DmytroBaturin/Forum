@@ -3,8 +3,52 @@ const Role = require("../models/role");
 const bcrypt = require("bcryptjs");
 
 exports.registration = async (req, res) => {
+  const { username, password, checkpassword } = req.body;
   try {
-    const { username, password } = req.body;
+    const errors = {
+      username: {},
+      password: {},
+      checkpassword: {},
+    };
+
+    if (password !== checkpassword) {
+      errors.checkpassword.mismatch = "Passwords do not match.";
+    }
+    if (
+      !password ||
+      password.length < 4 ||
+      !/[A-Z]/.test(password) ||
+      !/[!@#$%^&*(),.?":{}|<>]/.test(password)
+    ) {
+      if (!password) {
+        errors.password.empty = "Password is required.";
+      }
+      if (password.length < 4) {
+        errors.password.length = "Password must be at least 4 characters.";
+      }
+      if (!/[A-Z]/.test(password)) {
+        errors.password.upper =
+          "Password must contain at least one uppercase letter.";
+      }
+      if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+        errors.password.symbol =
+          "Password must contain at least one special character.";
+      }
+    }
+    if (!username) {
+      errors.username.username = "Username is required.";
+    }
+    if (
+      Object.keys(errors.password).length > 0 ||
+      Object.keys(errors.checkpassword).length > 0 ||
+      errors.username
+    ) {
+      return res.status(400).json({
+        message: "Validation errors",
+        errors: errors,
+      });
+    }
+
     const candidate = await User.findOne({ username });
     const userRole = await Role.findOne({ role: "USER" });
     if (!userRole) {

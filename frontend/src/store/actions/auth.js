@@ -66,9 +66,11 @@ export const register = createAsyncThunk("auth/register", async (payload) => {
       body: JSON.stringify({
         username: payload.username,
         password: payload.password,
+        checkpassword: payload.confirmPassword,
       }),
     });
     const data = await response.json();
+    console.log(data);
     if (!response.ok) {
       await enqueueSnackbar(data.message, { variant: "error" });
       return data;

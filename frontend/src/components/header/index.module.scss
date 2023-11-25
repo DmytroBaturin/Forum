@@ -26,3 +26,19 @@
   width: 100%;
   position: fixed;
 }
+
+@media screen and (max-width: 768px) {
+  .logo {
+    display: none;
+  }
+  .navbar {
+    justify-content: center;
+    gap: 4vw;
+    align-items: center;
+  }
+  .header {
+    align-items: center;
+    padding: 10px;
+    justify-content: center;
+  }
+}

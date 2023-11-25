@@ -5,19 +5,15 @@
   margin: 160px auto;
   height: 100%;
   border-radius: 20px;
+  padding: 30px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.26);
 }
 .container {
-  padding: 30px;
-  justify-content: center;
+  width: 100%;
   align-items: center;
   display: flex;
   flex-direction: column;
   gap: 40px;
-  input {
-    outline: none;
-    width: 50%;
-  }
 }
 .button {
   display: flex;

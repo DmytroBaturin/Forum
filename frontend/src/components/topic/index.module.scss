@@ -38,3 +38,25 @@
   font-size: 12px;
   opacity: 0.5;
 }
+@media screen and (max-width: 768px) {
+  .root {
+    align-items: baseline;
+    flex-direction: column;
+  }
+  .createdby {
+    display: none;
+  }
+  .left {
+    display: none;
+  }
+  .container {
+    display: flex;
+
+    h1 {
+      word-break: break-all;
+    }
+    flex-wrap: wrap;
+  }
+  .right {
+  }
+}

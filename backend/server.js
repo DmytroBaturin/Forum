@@ -51,12 +51,11 @@ mongoose
       console.log("ADMIN role not found");
       return;
     }
-    const user = await User.findById("655e8e4ed1e211dcbf618a87");
+    const user = await User.findOne({ username: "admin" });
     if (!user) {
       console.log("User not found");
       return;
     }
-
     if (user.roles.includes(role._id)) {
       console.log("User already has the role");
     } else {

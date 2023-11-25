@@ -1,0 +1,23 @@
+.error {
+  color: rgba(255, 0, 0, 0.84);
+  font-size: 10px;
+  display: flex;
+  text-wrap: normal;
+}
+textarea {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  width: 80%;
+  box-sizing: border-box;
+  height: content-box;
+  display: flex;
+  border-radius: 10px;
+  resize: none;
+  padding: 10px;
+}
+.root {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}

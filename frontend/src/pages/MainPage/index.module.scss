@@ -9,9 +9,20 @@
   h1 {
     font-weight: 600;
     font-size: 120px;
+    line-height: 120px;
   }
 }
 .buttons {
   display: flex;
   gap: 20px;
+}
+@media screen and (max-width: 768px) {
+  .title {
+    margin-bottom: 20px;
+    h1 {
+      text-align: center;
+      font-size: 12vh;
+      line-height: 70px;
+    }
+  }
 }

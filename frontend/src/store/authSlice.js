@@ -3,12 +3,16 @@ import { checkSession, login, logOut, register } from "./actions/auth";
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    error: "",
+    error: [],
     isAuth: false,
     userInfo: "",
     loadedLayout: true,
   },
-  reducers: {},
+  reducers: {
+    clearError: (state) => {
+      state.error = null;
+    },
+  },
   extraReducers: {
     [login.pending]: (state) => {
       state.authLoading = true;
@@ -20,7 +24,7 @@ const authSlice = createSlice({
       state.error = "";
     },
     [login.rejected]: (state, action) => {
-      state.error = action.error.message;
+      state.error = action.payload;
       state.isAuth = false;
       state.userInfo = "";
     },
@@ -29,20 +33,22 @@ const authSlice = createSlice({
       state.isAuth = false;
     },
     [logOut.rejected]: (state, action) => {
-      state.error = action.error.message;
+      state.error = action.payload.message;
     },
     [register.pending]: (state) => {
       state.error = "";
     },
     [register.fulfilled]: (state, action) => {
-      state.userInfo = action.payload.user;
-      state.isAuth = action.payload.isAuth;
-      state.error = "";
+      if (!state.isAuth) {
+        state.error = action.payload;
+      } else {
+        state.userInfo = action.payload.user;
+        state.isAuth = action.payload.isAuth;
+      }
     },
     [register.rejected]: (state, action) => {
-      state.error = action.error.message;
+      state.error = action.payload;
     },
-
     [checkSession.fulfilled]: (state, action) => {
       state.isAuth = action.payload.isAuth;
       state.userInfo = action.payload.isAuth ? action.payload.user : "";
@@ -50,11 +56,12 @@ const authSlice = createSlice({
     [checkSession.rejected]: (state, action) => {
       state.isAuth = false;
       state.userInfo = "";
-      state.error = action.error.message || "Session check failed";
+      state.error = action.payload || "Session check failed";
     },
   },
 });
-
+export const errorSelector = (state) => state.auth.error;
 export const userInfo = (state) => state.auth.userInfo;
 export const selectAuthStatus = (state) => state.auth.isAuth;
+export const { clearError } = authSlice.actions;
 export default authSlice.reducer;

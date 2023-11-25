@@ -5,11 +5,25 @@ import styles from "./index.module.scss";
 import { login, register } from "../../store/actions/auth";
 import { Input } from "../../components/input";
 import { Button } from "../../components/button";
-import { selectAuthStatus } from "../../store/authSlice";
+import {
+  clearError,
+  errorSelector,
+  selectAuthStatus,
+} from "../../store/authSlice";
 
 export const AuthPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const error = useSelector(errorSelector);
+  useEffect(() => {
+    resetCredentials();
+    if (error) {
+      const timer = setTimeout(() => {
+        dispatch(clearError());
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [error, dispatch]);
   const { action } = useParams();
   const [isClicked, setIsClicked] = useState(false);
   const isAuth = useSelector(selectAuthStatus);
@@ -47,14 +61,8 @@ export const AuthPage = () => {
       e.preventDefault();
       const { username, password, confirmPassword } = credentials;
       const userCredentials = { username, password };
-
       setIsClicked(true);
-
       if (action === "register") {
-        if (password !== confirmPassword) {
-          console.log("Passwords do not match.");
-          return;
-        }
         registerUser(userCredentials);
       } else {
         loginUser(userCredentials);
@@ -63,18 +71,13 @@ export const AuthPage = () => {
     [dispatch, credentials, action],
   );
 
-  useEffect(() => {
-    if (isAuth && isClicked) {
-      navigate("/topics");
-      setIsClicked(false);
-    }
-  }, [isAuth, isClicked, navigate]);
-
   const isRegisterMode = action === "register";
   const switchAuthMode = () => {
+    dispatch(clearError());
+    resetCredentials();
     navigate(isRegisterMode ? "/auth/login" : "/auth/register");
   };
-
+  console.log(error);
   return (
     <div className={styles.root}>
       <div className={styles.container}>
@@ -83,13 +86,14 @@ export const AuthPage = () => {
           value={credentials.username}
           onChange={(e) => handleInputChange("username", e.target.value)}
           placeholder="Username"
+          errors={error?.errors ? Object.values(error.errors.username) : []}
         />
-
         <Input
           type="password"
           value={credentials.password}
           onChange={(e) => handleInputChange("password", e.target.value)}
           placeholder="Password"
+          errors={error?.errors ? Object.values(error.errors.password) : []}
         />
 
         {isRegisterMode && (
@@ -100,6 +104,9 @@ export const AuthPage = () => {
               handleInputChange("confirmPassword", e.target.value)
             }
             placeholder="Confirm Password"
+            errors={
+              error?.errors ? Object.values(error.errors.checkpassword) : []
+            }
           />
         )}
         <div className={styles.button}>

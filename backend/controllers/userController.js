@@ -5,6 +5,27 @@ const Category = require("../models/category");
 exports.createTopic = async (req, res) => {
   const { title, description, categoryIds } = req.body;
   try {
+    if (
+      !title ||
+      title.length <= 6 ||
+      !description ||
+      description.length <= 6
+    ) {
+      const errors = {};
+      if (!title || title.length <= 6) {
+        errors.title = "Title must be longer than 6 characters";
+      }
+      if (title.length > 16) {
+        errors.title = "Title must be less than 16 characters";
+      }
+      if (!description || description.length <= 6) {
+        errors.description = "Description must be longer than 6 characters";
+      }
+      return res.status(401).json({
+        message: "Validation failed",
+        errors: errors,
+      });
+    }
     const topic = new Topic({
       title,
       description,
@@ -12,11 +33,9 @@ exports.createTopic = async (req, res) => {
       categories: categoryIds,
     });
     await topic.save();
-
     const populatedTopic = await Topic.findById(topic._id)
       .populate("created_by", "username")
       .populate("categories");
-
     return res.status(200).json({
       message: "Topic created successfully",
       topic: populatedTopic,

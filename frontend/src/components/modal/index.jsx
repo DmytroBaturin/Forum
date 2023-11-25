@@ -4,7 +4,12 @@ import React, { useEffect, useState } from "react";
 import useComponentVisible from "../../hooks";
 import { useDispatch, useSelector } from "react-redux";
 import { createTopic, getCategory } from "../../store/actions/topics";
-import { categoriesSelector } from "../../store/topicSlice";
+import {
+  categoriesSelector,
+  clearError,
+  errorSelector,
+} from "../../store/topicSlice";
+import { Textarea } from "../textarea";
 
 export const Modal = () => {
   const { ref } = useComponentVisible(true);
@@ -15,7 +20,15 @@ export const Modal = () => {
     categoryIds: [],
   });
   const categories = useSelector(categoriesSelector);
-
+  const error = useSelector(errorSelector);
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => {
+        dispatch(clearError());
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [error, dispatch]);
   const handleInputChange = (type, value) => {
     setTopic((prev) => ({ ...prev, [type]: value }));
   };
@@ -51,16 +64,17 @@ export const Modal = () => {
       <div className={styles.overlay}></div>
       <div ref={ref} className={styles.modal}>
         <div className={styles.container}>
-          <textarea
-            className={styles}
+          <Textarea
             value={topic.title}
             onChange={(e) => handleInputChange("title", e.target.value)}
             placeholder="Title"
+            error={error?.errors?.title}
           />
-          <textarea
+          <Textarea
             value={topic.description}
             onChange={(e) => handleInputChange("description", e.target.value)}
             placeholder="Description"
+            error={error?.errors?.description}
           />
           {categories ? (
             <div className={styles.categories}>

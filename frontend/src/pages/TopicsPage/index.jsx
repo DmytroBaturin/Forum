@@ -37,7 +37,7 @@ export const TopicsPage = () => {
       </div>
       <div className={styles.container}>
         <div className={styles.containerPadding}>
-          {topics.length === 0 ? (
+          {topics.length === 0 && !topics ? (
             <div className={styles.spinWrapper}>
               <div className={styles.spinner}></div>
             </div>
